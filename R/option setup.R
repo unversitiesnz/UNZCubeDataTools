@@ -1,0 +1,45 @@
+# set options
+
+domesticOptions = list("Domestic"=TRUE, "International"=FALSE)
+indicatorOptions = list("Overseas", "Benefit", "Job seekers", "Further Study", "Further University Study", "University Study at a Higher Level", "University Study at a Lower Level")
+sexOptions = list("Male" = 1, "Female" = 2)
+# macron issue! https://github.com/tidyverse/tibble/issues/87 & https://github.com/tidyverse/dplyr/issues/1950
+ethnicityOptions = list("European"=1, "M\u101ori"=2, "Pasifika"=3, "Asian"=4, "Other"=5)
+studyLevelOptions = list("Level 1-4 Certificates" = 2,
+"Certificates and Diploma Level 5-7" = 3,
+"Bachelor Degrees" = 4,
+"Honours, postgrad dipl" = 5,
+"Masters degrees" = 6,
+"Doctoral degrees" = 7
+)
+fieldOfStudyOptions = list(
+  "01 Natural and Physical Sciences" = 1,
+  "02 Information Technology" = 2,
+  "03 Engineering and Related Technologies" = 3,
+  "04 Architecture and Building" = 4,
+  "05 Agriculture, Environmental and Related Studies" = 5,
+  "06 Health" = 6,
+  "07 Education" = 7,
+  "08 Management and Commerce" = 8,
+  "09 Society and Culture" = 9,
+  "10 Creative Arts" = 10,
+  "11 Food, Hospitality and Personal Services" = 11,
+  "12 Mixed Field Programmes" = 12
+)
+
+
+sexToId <- function(sex) {
+  switch (sex,
+    "Male" = 1, "Female" = 2
+  )
+}
+domesticToId <- function(domestic) {
+  switch (domestic,
+          "Domestic" = 1, "International" = 0
+  )
+}
+ethnicityToId <- function(ethnicity) {
+  switch (ethnicity,
+          "European" = 1, "M\u101ori" = 2, "Pasifika" = 3, "Asian" = 4, "Middle Eastern/Latin American/African" = 5, "Other" = 6
+  )
+}
