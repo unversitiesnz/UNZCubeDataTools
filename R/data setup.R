@@ -11,3 +11,6 @@ datacube.prog = ChangeNamesOnData(cube[cube$ind == "ter_post_da_prog",])
 datacube.uni = ChangeNamesOnData(cube[cube$ind == "ter_post_enr_uni",])
 datacube.uni_hi = ChangeNamesOnData(cube[cube$ind == "ter_post_enr_uni_hi",])
 datacube.uni_lo = ChangeNamesOnData(cube[cube$ind == "ter_post_enr_uni_lo",])
+
+# cleaning
+remove(cube)
