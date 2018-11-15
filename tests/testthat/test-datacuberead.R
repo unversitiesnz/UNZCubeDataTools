@@ -141,10 +141,3 @@ test_that("I get the right data", {
   result <- getCube.filteredByOptions(optionSet)
   expect_equal(nrow(result), 73)
 })
-
-
-test_that("I get the right data 2", {
-  optionSet = optionSet.dataset1.dom
-  result <- getOverseasData(1, TRUE, 1, "Overseas", "2011", "University", 5, 4)
-  expect_equal(nrow(result), 73)
-})
