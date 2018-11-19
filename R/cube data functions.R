@@ -2,11 +2,11 @@ getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
   return (indicator.data$sex == optionSet$sex & !is.na(indicator.data$sex) &
             indicator.data$domestic == optionSet$dom &
             indicator.data$cohort == optionSet$cohort & !is.na(indicator.data$cohort) &
-            indicator.data$ter_com_subsector == optionSet$subsector &
+            indicator.data$ter_com_subsector %in% optionSet$subsector &
             is.na(indicator.data$ter_com_NZSCED) &
-            indicator.data$ethnicity == optionSet$eth & !is.na(indicator.data$ethnicity) &
+            indicator.data$ethnicity %in% optionSet$eth & !is.na(indicator.data$ethnicity) &
             indicator.data$dataset == "dataset1" &
-            indicator.data$ter_com_qual_type == optionSet$studyLevel)
+            indicator.data$ter_com_qual_type %in% optionSet$studyLevel)
 }
 getCube.dataset1.int.select <- function(indicator.data, optionSet) {
   return (indicator.data$domestic == FALSE &
