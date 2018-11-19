@@ -43,3 +43,14 @@ ethnicityToId <- function(ethnicity) {
           "European" = 1, "M\u101ori" = 2, "Pasifika" = 3, "Asian" = 4, "Middle Eastern/Latin American/African" = 5, "Other" = 6
   )
 }
+
+optionSetToString <- function(optionSet) {
+  paste("domestic:", optionSet$dom,
+        ", sex:", optionSet$sex,
+        ", eth:", optionSet$eth,
+        ", studyLevel:", optionSet$studyLevel,
+        ", subsector:", optionSet$subsector,
+        ", fieldOfStudy:", optionSet$fieldOfStudy,
+        ", cohort:", optionSet$cohort,
+        ", indicator:", optionSet$indicator)
+}

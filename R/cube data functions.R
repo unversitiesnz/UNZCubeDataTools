@@ -1,6 +1,6 @@
 getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
   return (indicator.data$sex == optionSet$sex & !is.na(indicator.data$sex) &
-            indicator.data$domestic == optionSet$dom & 
+            indicator.data$domestic == optionSet$dom &
             indicator.data$cohort == optionSet$cohort & !is.na(indicator.data$cohort) &
             indicator.data$ter_com_subsector == optionSet$subsector &
             is.na(indicator.data$ter_com_NZSCED) &
@@ -9,7 +9,7 @@ getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
             indicator.data$ter_com_qual_type == optionSet$studyLevel)
 }
 getCube.dataset1.int.select <- function(indicator.data, optionSet) {
-  return (indicator.data$domestic == FALSE & 
+  return (indicator.data$domestic == FALSE &
             indicator.data$cohort == optionSet$cohort &
             indicator.data$ter_com_subsector == optionSet$subsector &
             indicator.data$dataset == "dataset1" &
@@ -18,7 +18,7 @@ getCube.dataset1.int.select <- function(indicator.data, optionSet) {
 getCube.dataset2.dom.select <- function(indicator.data, optionSet) {
   return (indicator.data$domestic == optionSet$dom &
             indicator.data$sex == optionSet$sex &
-            indicator.data$ethnicity == optionSet$eth & 
+            indicator.data$ethnicity == optionSet$eth &
             indicator.data$ter_com_subsector == optionSet$subsector &
             indicator.data$ter_com_NZSCED == optionSet$fieldOfStudy &
             indicator.data$dataset == "dataset2" &
@@ -26,7 +26,7 @@ getCube.dataset2.dom.select <- function(indicator.data, optionSet) {
 }
 getCube.dataset2.int.select <-function(indicator.data, optionSet) {
   return (indicator.data$domestic == optionSet$dom &
-            
+
             indicator.data$ter_com_subsector == optionSet$subsector &
             indicator.data$ter_com_NZSCED == optionSet$fieldOfStudy &
             indicator.data$dataset == "dataset2" &
@@ -39,23 +39,29 @@ getCube.selector <-function(optionSet) {
   } else {
     datasetName <- "dataset1"
   }
-  return (switch(datasetName, 
-         "dataset1" = switch(as.character(optionSet$dom), "TRUE" = getCube.dataset1.dom.select, "FALSE" = getCube.dataset1.int.select), 
+  return (switch(datasetName,
+         "dataset1" = switch(as.character(optionSet$dom), "TRUE" = getCube.dataset1.dom.select, "FALSE" = getCube.dataset1.int.select),
          "dataset2" = switch(as.character(optionSet$dom), "TRUE" = getCube.dataset2.dom.select, "FALSE" = getCube.dataset2.int.select)))
   #getCube.dataset1.dom.select
 }
 
 getCube.forIndicator <- function(optionSet) {
-  switch(optionSet$indicator, "Overseas" = datacube.overseas, 
-                    "Benefit" = datacube.benefit, 
-                    "Job seekers" = datacube.job_seeker, 
-                    "Further University Study" = datacube.uni, 
-                    "University Study at a Higher Level" = datacube.uni_hi, 
-                    "University Study at a Lower Level" = datacube.uni_lo, 
+  switch(optionSet$indicator, "Overseas" = datacube.overseas,
+                    "Benefit" = datacube.benefit,
+                    "Job seekers" = datacube.job_seeker,
+                    "Further University Study" = datacube.uni,
+                    "University Study at a Higher Level" = datacube.uni_hi,
+                    "University Study at a Lower Level" = datacube.uni_lo,
                     "Further Study" = datacube.prog
         )
 }
 
+#' Get the dataset based on the options passed to it.
+#'
+#' @param optionSet A list/vector with the following fields: list(dom = bool, sex = int, eth = int, studyLevel = int, subsector = string, fieldOfStudy = int, cohort = int, indicator = string).
+#' @return The data rows that relate to optionsSet.
+#' @examples
+#' getCube.filteredByOptions(optionSet)
 getCube.filteredByOptions <- function(optionSet) {
   filterFunction <- getCube.selector(optionSet)
   indicator.data <- getCube.forIndicator(optionSet)
