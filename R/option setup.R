@@ -12,7 +12,7 @@ studyLevelOptions = list("ALL" = NA, "Level 1-4 Certificates" = 2,
 "Masters degrees" = 6,
 "Doctoral degrees" = 7
 )
-fieldOfStudyOptions = list(
+fieldOfStudyOptions = list("ALL" = NA,
   "01 Natural and Physical Sciences" = 1,
   "02 Information Technology" = 2,
   "03 Engineering and Related Technologies" = 3,
