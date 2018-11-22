@@ -18,7 +18,7 @@ getCube.dataset1.int.select <- function(indicator.data, optionSet) {
 getCube.dataset2.dom.select <- function(indicator.data, optionSet) {
   return (indicator.data$domestic == optionSet$dom &
             (indicator.data$sex %in% optionSet$sex | is.na(optionSet$sex)) &
-            indicator.data$ethnicity %in% optionSet$eth &
+            (indicator.data$ethnicity %in% optionSet$eth | is.na(optionSet$eth))  &
             (indicator.data$ter_com_subsector %in% optionSet$subsector | is.na(optionSet$subsector)) &
             (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | is.na(optionSet$fieldOfStudy)) &
             indicator.data$dataset == "dataset2" &
@@ -69,7 +69,7 @@ getCube.filteredByOptions <- function(optionSet) {
 }
 
 getCube.aggregate <- function(filtered.data, optionSet) {
-  aggregate(x = filtered.data[,c("num", "denom")], by = list(month = filtered.data$month), FUN=sum, na.rm = FALSE)
+  aggregate(x = filtered.data[,c("num", "denom")], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
 }
 
 getCube.filterAndAggregateByOptions <- function(optionSet) {
