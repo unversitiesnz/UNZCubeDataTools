@@ -2,10 +2,10 @@
 
 domesticOptions = list("Domestic"=TRUE, "International"=FALSE)
 indicatorOptions = list("Overseas", "Benefit", "Job seekers", "Further Study", "Further University Study", "University Study at a Higher Level", "University Study at a Lower Level")
-sexOptions = list("Male" = 1, "Female" = 2)
+sexOptions = list("ALL" = NA, "Male" = 1, "Female" = 2)
 # macron issue! https://github.com/tidyverse/tibble/issues/87 & https://github.com/tidyverse/dplyr/issues/1950
-ethnicityOptions = list("European"=1, "M\u101ori"=2, "Pasifika"=3, "Asian"=4, "Other"=5)
-studyLevelOptions = list("Level 1-4 Certificates" = 2,
+ethnicityOptions = list("ALL" = NA, "European"=1, "M\u101ori"=2, "Pasifika"=3, "Asian"=4, "Other"=5)
+studyLevelOptions = list("ALL" = NA, "Level 1-4 Certificates" = 2,
 "Certificates and Diploma Level 5-7" = 3,
 "Bachelor Degrees" = 4,
 "Honours, postgrad dipl" = 5,

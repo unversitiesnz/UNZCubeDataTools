@@ -1,36 +1,36 @@
 getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
-  return (indicator.data$sex == optionSet$sex & !is.na(indicator.data$sex) &
-            indicator.data$domestic == optionSet$dom &
-            indicator.data$cohort == optionSet$cohort & !is.na(indicator.data$cohort) &
-            indicator.data$ter_com_subsector %in% optionSet$subsector &
+  return ( (indicator.data$sex %in% optionSet$sex | is.na(optionSet$sex)) &
+            indicator.data$domestic %in% optionSet$dom &
+            indicator.data$cohort %in% optionSet$cohort & !is.na(indicator.data$cohort) &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | is.na(optionSet$subsector))  &
             is.na(indicator.data$ter_com_NZSCED) &
-            indicator.data$ethnicity %in% optionSet$eth & !is.na(indicator.data$ethnicity) &
+            (indicator.data$ethnicity %in% optionSet$eth | is.na(optionSet$eth)) &
             indicator.data$dataset == "dataset1" &
-            indicator.data$ter_com_qual_type %in% optionSet$studyLevel)
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | is.na(optionSet$studyLevel)))
 }
 getCube.dataset1.int.select <- function(indicator.data, optionSet) {
   return (indicator.data$domestic == FALSE &
-            indicator.data$cohort == optionSet$cohort &
-            indicator.data$ter_com_subsector == optionSet$subsector &
+            indicator.data$cohort %in% optionSet$cohort &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | is.na(optionSet$subsector)) &
             indicator.data$dataset == "dataset1" &
-            indicator.data$ter_com_qual_type == optionSet$studyLevel)
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | is.na(optionSet$studyLevel)))
 }
 getCube.dataset2.dom.select <- function(indicator.data, optionSet) {
   return (indicator.data$domestic == optionSet$dom &
-            indicator.data$sex == optionSet$sex &
-            indicator.data$ethnicity == optionSet$eth &
-            indicator.data$ter_com_subsector == optionSet$subsector &
-            indicator.data$ter_com_NZSCED == optionSet$fieldOfStudy &
+            (indicator.data$sex %in% optionSet$sex | is.na(optionSet$sex)) &
+            indicator.data$ethnicity %in% optionSet$eth &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | is.na(optionSet$subsector)) &
+            (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | is.na(optionSet$fieldOfStudy)) &
             indicator.data$dataset == "dataset2" &
-            indicator.data$ter_com_qual_type == optionSet$studyLevel)
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | is.na(optionSet$studyLevel)))
 }
 getCube.dataset2.int.select <-function(indicator.data, optionSet) {
   return (indicator.data$domestic == optionSet$dom &
 
-            indicator.data$ter_com_subsector == optionSet$subsector &
-            indicator.data$ter_com_NZSCED == optionSet$fieldOfStudy &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | is.na(optionSet$subsector)) &
+            (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | is.na(optionSet$fieldOfStudy)) &
             indicator.data$dataset == "dataset2" &
-            indicator.data$ter_com_qual_type == optionSet$studyLevel)
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | is.na(optionSet$studyLevel)))
 }
 
 getCube.selector <-function(optionSet) {
@@ -66,4 +66,13 @@ getCube.filteredByOptions <- function(optionSet) {
   filterFunction <- getCube.selector(optionSet)
   indicator.data <- getCube.forIndicator(optionSet)
   indicator.data[filterFunction(indicator.data, optionSet),]
+}
+
+getCube.aggregate <- function(filtered.data, optionSet) {
+  aggregate(x = filtered.data[,c("num", "denom")], by = list(month = filtered.data$month), FUN=sum, na.rm = FALSE)
+}
+
+getCube.filterAndAggregateByOptions <- function(optionSet) {
+  filteredData <- getCube.filteredByOptions(optionSet)
+  getCube.aggregate(filteredData)
 }
