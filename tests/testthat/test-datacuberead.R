@@ -141,3 +141,29 @@ test_that("I get the right data", {
   result <- getCube.filteredByOptions(optionSet)
   expect_equal(nrow(result), 73)
 })
+
+#### test income ind filter #####
+
+test_that("data selector - dataset1 - domestic", {
+
+  optionSet <- list(
+    dom = TRUE,
+    sex = 1,
+    eth = 1,
+    studyLevel = 6,
+    subsector = "University",
+    fieldOfStudy = NA,
+    cohort = 2009,
+    indicator = "Wage and Salary Employed"
+  )
+  result <- getCube.dataset1.dom.select(datacube.wns,optionSet)
+  expect_false(anyNA(result), label = "there are NA selectors (benefit)")
+  expect_true(any(result == TRUE))
+  data_result <- getCube.forIndicator(optionSet)
+  expect_equal(nrow(data_result), 126728)
+
+  result2 <- getCube.filteredByOptions(optionSet)
+  expect_equal(nrow(result2), 73)
+  result3 <- getCube.filterAndAggregateByOptions(optionSet)
+  expect_equal(nrow(result3), 73)
+})

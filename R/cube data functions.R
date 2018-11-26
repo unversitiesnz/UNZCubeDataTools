@@ -51,8 +51,8 @@ getCube.forIndicator <- function(optionSet) {
                     "Job seekers" = datacube.job_seeker,
                     "Further University Study" = datacube.uni,
                     "University Study at a Higher Level" = datacube.uni_hi,
-                    "University Study at a Lower Level" = datacube.uni_lo,
-                    "Further Study" = datacube.prog
+                    "Further Study" = datacube.prog,
+                    "Wage and Salary Employed" = datacube.wns
         )
 }
 
