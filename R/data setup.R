@@ -4,7 +4,7 @@ ChangeNamesOnData <- function (indicator.data) {
   subset(indicator.data, select = -c(ind))
 }
 if (!exists("dataDir")) {
-  dataDir = '';
+  dataDir = '.';
 }
 cube = readRDS(file.path(dataDir, "cube.rds"))
 datacube.benefit = ChangeNamesOnData(cube[cube$ind == "total_da_onben_post",])
@@ -17,3 +17,6 @@ datacube.wns = ChangeNamesOnData(cube[cube$ind == "WNS",])
 
 # cleaning
 remove(cube)
+
+cube_income = readRDS(file.path(dataDir, "cube_inc.rds"))
+datacube.wns_income = ChangeNamesOnData(cube_income)
