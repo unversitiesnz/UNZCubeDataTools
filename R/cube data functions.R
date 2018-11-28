@@ -1,3 +1,5 @@
+library(dplyr)
+
 getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
   return ( (indicator.data$sex %in% optionSet$sex | is.na(optionSet$sex)) &
             indicator.data$domestic %in% optionSet$dom &
@@ -71,10 +73,22 @@ getCube.filteredByOptions <- function(optionSet) {
 }
 
 getCube.aggregate <- function(filtered.data, optionSet) {
-  aggregate(x = filtered.data[,c("num", "denom")], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
+  if (optionSet$indicator == "W&S Income (Mean)") {
+    filtered.data %>%
+      filter(!is.na(mean)) %>%
+      group_by(month) %>%
+      summarise(base_num = sum(num), weighted_value =  weighted.mean(mean, num))
+  } else if (optionSet$indicator == "W&S Income (Median)") {
+    filtered.data %>%
+      filter(!is.na(median)) %>%
+      group_by(month) %>%
+      summarise(base_num = sum(num), weighted_value =  weighted.mean(median, num))
+  } else {
+    aggregate(x = filtered.data[,c("num", "denom")], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
+  }
 }
 
 getCube.filterAndAggregateByOptions <- function(optionSet) {
   filteredData <- getCube.filteredByOptions(optionSet)
-  getCube.aggregate(filteredData)
+  getCube.aggregate(filteredData, optionSet)
 }

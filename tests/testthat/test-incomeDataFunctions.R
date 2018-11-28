@@ -51,3 +51,21 @@ test_that("income works!", {
   result4 <- getCube.filteredByOptions(optionSet.dataset2.int)
   expect_equal(nrow(result4), 73)
 })
+
+test_that("income aggregates", {
+  optionSet = list(
+    dom = TRUE,
+    sex = c(1,2),
+    eth = c(1),
+    studyLevel = c(4),
+    subsector = c("University"),
+    fieldOfStudy = NA,
+    cohort = 2009,
+    indicator = "W&S Income (Mean)"
+  )
+  result <- getCube.filteredByOptions(optionSet)
+
+  result2 <- getCube.filterAndAggregateByOptions(optionSet)
+  expect_equal(nrow(result2), 73)
+
+})
