@@ -168,3 +168,32 @@ test_that("data selector - all (subtotals) - domestic", {
   check_that.selectExact(result)
   expect_equal(sum(result, na.rm = TRUE), 73 * 2)
 })
+
+test_that("All and other options play nice", {
+  optionSet = list(
+    dom = TRUE,
+    sex = 1,
+    eth = c(NA),
+    studyLevel = 4,
+    subsector = "University",
+    fieldOfStudy = NA,
+    cohort = 2009,
+    indicator = "Overseas"
+  )
+  result <- getCube.dataset1.dom.select(datacube.overseas, optionSet)
+  expect_equal(sum(result, na.rm = TRUE), 73 * 5)
+
+  optionSet = list(
+    dom = TRUE,
+    sex = 1,
+    eth = c(NA, 1),
+    studyLevel = 4,
+    subsector = "University",
+    fieldOfStudy = NA,
+    cohort = 2009,
+    indicator = "Overseas"
+  )
+  result <- getCube.dataset1.dom.select(datacube.overseas, optionSet)
+  expect_equal(sum(result, na.rm = TRUE), 73 * 5)
+
+})
