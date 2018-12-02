@@ -35,6 +35,10 @@ fieldOfStudyOptions = list("ALL" = NA,
   "12 Mixed Field Programmes" = 12
 )
 
+subsectorOptions = list("All" = NA, "University", "non-University")
+
+cohortOptions = list("All" = NA,"2009" = 2009, "2010" = 2010, "2011" = 2011)
+
 
 sexToId <- function(sex) {
   switch (sex,
