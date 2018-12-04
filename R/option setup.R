@@ -6,9 +6,11 @@ indicatorOptions = list("Overseas", "Benefit", "Job seekers", "Further Study",
                         "Wage and Salary Employed", "W&S Income (Mean)", "W&S Income (Median)")
 indicatorOptions.dom = list("Overseas", "Benefit", "Job seekers", "Further Study",
                         "Further University Study", "University Study at a Higher Level",
+                        "Employer Change", "Region Change", "District Change", "W&S or Self Employed",
                         "Wage and Salary Employed", "W&S Income (Mean)", "W&S Income (Median)")
 indicatorOptions.int = list("Overseas", "Further Study",
                         "Further University Study", "University Study at a Higher Level",
+                        "Employer Change", "Region Change", "District Change", "W&S or Self Employed",
                         "Wage and Salary Employed", "W&S Income (Mean)", "W&S Income (Median)")
 sexOptions = list("ALL" = NA, "Male" = 1, "Female" = 2)
 # macron issue! https://github.com/tidyverse/tibble/issues/87 & https://github.com/tidyverse/dplyr/issues/1950
@@ -64,5 +66,5 @@ optionSetToString <- function(optionSet) {
         ", subsector:", optionSet$subsector,
         ", fieldOfStudy:", optionSet$fieldOfStudy,
         ", cohort:", optionSet$cohort,
-        ", indicator:", optionSet$indicator)
+        ", indicator:", optionSet$indicator, collapse = '|')
 }
