@@ -8,6 +8,7 @@ if (!exists("dataDir")) {
 }
 #cube = readRDS(file.path(dataDir, "cube.rds"))
 load(file.path(dataDir, "datacube.RData"))
+load(file.path(dataDir, "cubehelpers.RData"))
 
 # cleaning
 #remove(cube)
