@@ -65,7 +65,7 @@ test_that("income aggregates", {
   )
   result <- getCube.filteredByOptions(optionSet)
 
-  result2 <- getCube.filterAndAggregateByOptions(optionSet)
+  result2 <- getCube.filterAndAggregateByOptions(optionSet)$data
   expect_equal(nrow(result2), 73)
 
 })

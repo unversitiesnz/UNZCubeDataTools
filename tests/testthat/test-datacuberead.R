@@ -144,7 +144,7 @@ test_that("I get the right data", {
 
 #### test income ind filter #####
 
-test_that("data selector - dataset1 - domestic", {
+test_that("data selector - dataset1 - domestic (income)", {
 
   optionSet <- list(
     dom = TRUE,
@@ -164,6 +164,6 @@ test_that("data selector - dataset1 - domestic", {
 
   result2 <- getCube.filteredByOptions(optionSet)
   expect_equal(nrow(result2), 73)
-  result3 <- getCube.filterAndAggregateByOptions(optionSet)
+  result3 <- getCube.filterAndAggregateByOptions(optionSet)$data
   expect_equal(nrow(result3), 73)
 })
