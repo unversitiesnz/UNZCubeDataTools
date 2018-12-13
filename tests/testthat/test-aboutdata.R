@@ -67,3 +67,24 @@ test_that("region change about data", {
   expect_false(about$suppression)
   expect_false(about$aggregation)
 })
+
+
+########## Handle missing data ############
+
+test_that("About - check for data missing", {
+
+  optionSet <- list(
+    indicator = "Overseas",
+    cohort = NA,
+    dom = TRUE,
+    sex = 2,
+    ethnicity = 2,
+    subsector = "University",
+    studyLevel = 2,
+    fieldOfStudy = 8
+  )
+
+  data <- getCube.filteredByOptions(optionSet)
+  about <- checkCube.about(data, optionSet)
+  expect_false(about$hasData)
+})

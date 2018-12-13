@@ -95,6 +95,9 @@ getCube.aggregate <- function(filtered.data, optionSet) {
 # given the data, indicate weather suppression has been applied, and if aggregation is required.
 checkCube.about <- function(data, optionSet) {
   return (list(
+    hasData = (
+      nrow(data) > 0
+    ),
     suppression = (
       (
         optionSet$indicator %in% c("Overseas", "Benefit", "Job seekers", "Further University Study", "University Study at a Higher Level", "Further Study", "W&S or Self Employed", "Wage and Salary Employed") &&
@@ -109,7 +112,7 @@ checkCube.about <- function(data, optionSet) {
           anyNA(data[, "mean"])
       )
     ),
-    aggregation = !(nrow(data) == 73)
+    aggregation = (nrow(data) > 73)
   ))
 }
 
@@ -118,6 +121,10 @@ getCube.filterAndAggregateByOptions <- function(optionSet) {
   #decide if suppression was applied here?
   #return as list(data=data, containsSuppression=True/False)
   about <- checkCube.about(filteredData, optionSet)
-  aggregatedData <- getCube.aggregate(filteredData, optionSet)
-  return (list(data=aggregatedData, about=about))
+  if (about$hasData) {
+    aggregatedData <- getCube.aggregate(filteredData, optionSet)
+    return (list(data=aggregatedData, about=about))
+  } else {
+    return (list(data=filteredData, about=about))
+  }
 }

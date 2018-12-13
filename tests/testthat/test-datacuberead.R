@@ -167,3 +167,25 @@ test_that("data selector - dataset1 - domestic (income)", {
   result3 <- getCube.filterAndAggregateByOptions(optionSet)$data
   expect_equal(nrow(result3), 73)
 })
+
+########## Handle missing data ############
+
+test_that("data selector - dataset1 - domestic (income)", {
+
+  optionSet <- list(
+    indicator = "Overseas",
+    cohort = NA,
+    dom = TRUE,
+    sex = 2,
+    ethnicity = 2,
+    subsector = "University",
+    studyLevel = 2,
+    fieldOfStudy = 8
+  )
+
+
+  result2 <- getCube.filteredByOptions(optionSet)
+  expect_equal(nrow(result2), 0)
+  result3 <- getCube.filterAndAggregateByOptions(optionSet)$data
+  expect_equal(nrow(result3), 0)
+})
