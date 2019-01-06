@@ -60,7 +60,8 @@ getCube.forIndicator <- function(optionSet) {
                     "W&S or Self Employed" = datacube.wns_sei,
                     "Wage and Salary Employed" = datacube.wns,
                     "W&S Income (Mean)" = datacube.wns_income,
-                    "W&S Income (Median)" = datacube.wns_income
+                    "W&S Income (Median)" = datacube.wns_income,
+                    "NEET" = datacube.neet
         )
 }
 
@@ -100,7 +101,7 @@ checkCube.about <- function(data, optionSet) {
     ),
     suppression = (
       (
-        optionSet$indicator %in% c("Overseas", "Benefit", "Job seekers", "Further University Study", "University Study at a Higher Level", "Further Study", "W&S or Self Employed", "Wage and Salary Employed") &&
+        optionSet$indicator %in% c("Overseas", "Benefit", "Job seekers", "Further University Study", "University Study at a Higher Level", "Further Study", "W&S or Self Employed", "Wage and Salary Employed", "NEET") &&
         anyNA(data$num)
       ) ||
       (
