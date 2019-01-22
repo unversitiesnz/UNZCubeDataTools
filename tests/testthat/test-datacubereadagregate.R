@@ -100,7 +100,7 @@ test_that("data selector - summury - sex - domestic", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Benefit"
+    indicator = "On a benefit"
   )
   result <- getCube.dataset1.dom.select(datacube.benefit,optionSet)
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")
@@ -131,7 +131,7 @@ test_that("data selector - all (subtotals) - domestic", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Benefit"
+    indicator = "On a benefit"
   )
   result <- getCube.dataset1.dom.select(datacube.benefit,optionSet)
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")

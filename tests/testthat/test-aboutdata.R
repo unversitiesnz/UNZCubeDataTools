@@ -41,7 +41,7 @@ optionSet.ch = list(
   subsector = "University",
   fieldOfStudy = NA,
   cohort = 2009,
-  indicator = "Employer Change"
+  indicator = "Employer change"
 )
 
 test_that("about data", {

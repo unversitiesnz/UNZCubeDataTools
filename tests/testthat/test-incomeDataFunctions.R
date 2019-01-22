@@ -8,7 +8,7 @@ optionSet.dataset1.dom = list(
   subsector = c("University"),
   fieldOfStudy = NA,
   cohort = 2009,
-  indicator = "W&S Income (Mean)"
+  indicator = "Earnings from wages or salary (mean)"
 )
 optionSet.dataset1.int = list(
   dom = FALSE,
@@ -18,7 +18,7 @@ optionSet.dataset1.int = list(
   subsector = "University",
   fieldOfStudy = NA,
   cohort = 2009,
-  indicator = "W&S Income (Mean)"
+  indicator = "Earnings from wages or salary (mean)"
 )
 optionSet.dataset2.dom = list(
   dom = TRUE,
@@ -28,7 +28,7 @@ optionSet.dataset2.dom = list(
   subsector = "University",
   fieldOfStudy = 6,
   cohort = NA,
-  indicator = "W&S Income (Mean)"
+  indicator = "Earnings from wages or salary (mean)"
 )
 optionSet.dataset2.int = list(
   dom = FALSE,
@@ -38,7 +38,7 @@ optionSet.dataset2.int = list(
   subsector = "University",
   fieldOfStudy = 6,
   cohort = NA,
-  indicator = "W&S Income (Mean)"
+  indicator = "Earnings from wages or salary (mean)"
 )
 
 test_that("income works!", {
@@ -61,7 +61,7 @@ test_that("income aggregates", {
     subsector = c("University"),
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "W&S Income (Mean)"
+    indicator = "Earnings from wages or salary (mean)"
   )
   result <- getCube.filteredByOptions(optionSet)
 

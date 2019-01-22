@@ -48,21 +48,7 @@ getCube.selector <-function(optionSet) {
 }
 
 getCube.forIndicator <- function(optionSet) {
-  switch(optionSet$indicator, "Overseas" = datacube.overseas,
-                    "Benefit" = datacube.benefit,
-                    "Job seekers" = datacube.job_seeker,
-                    "Further University Study" = datacube.uni,
-                    "University Study at a Higher Level" = datacube.uni_hi,
-                    "Further Study" = datacube.prog,
-                    "Employer Change" = datacube.wns_pbn_ch,
-                    "Region Change" = datacube.wns_reg_ch,
-                    "District Change" = datacube.wns_ta_ch,
-                    "W&S or Self Employed" = datacube.wns_sei,
-                    "Wage and Salary Employed" = datacube.wns,
-                    "W&S Income (Mean)" = datacube.wns_income,
-                    "W&S Income (Median)" = datacube.wns_income,
-                    "NEET" = datacube.neet
-        )
+  datacube[[optionSet$indicator]]
 }
 
 #' Get the dataset based on the options passed to it.
@@ -78,12 +64,12 @@ getCube.filteredByOptions <- function(optionSet) {
 }
 
 getCube.aggregate <- function(filtered.data, optionSet) {
-  if (optionSet$indicator == "W&S Income (Mean)") {
+  if (optionSet$indicator == indicator_names$wns_mean) {
     filtered.data %>%
       filter(!is.na(mean)) %>%
       group_by(month) %>%
       summarise(base_num = sum(num), weighted_value =  weighted.mean(mean, num))
-  } else if (optionSet$indicator == "W&S Income (Median)") {
+  } else if (optionSet$indicator == indicator_names$wns_median) {
     filtered.data %>%
       filter(!is.na(median)) %>%
       group_by(month) %>%
@@ -101,15 +87,15 @@ checkCube.about <- function(data, optionSet) {
     ),
     suppression = (
       (
-        optionSet$indicator %in% c("Overseas", "Benefit", "Job seekers", "Further University Study", "University Study at a Higher Level", "Further Study", "W&S or Self Employed", "Wage and Salary Employed", "NEET") &&
+        optionSet$indicator %in% c(indicator_names$overseas, indicator_names$all_benefit, indicator_names$job_seeker_benefit, indicator_names$enrolled_university, indicator_names$enrolled_higher_university, indicator_names$enrolled_tertiary_study, indicator_names$employed, indicator_names$employed_wns, indicator_names$neet) &&
         anyNA(data$num)
       ) ||
       (
-        optionSet$indicator %in% c("Employer Change", "Region Change", "District Change") &&
+        optionSet$indicator %in% c(indicator_names$employer_change, indicator_names$regional_mobility, indicator_names$district_mobility) &&
         anyNA(data[-c(0), "num"])
       ) ||
       (
-        optionSet$indicator == "W&S Income (Mean)" &&
+        optionSet$indicator == indicator_names$wns_mean &&
           anyNA(data[, "mean"])
       )
     ),
