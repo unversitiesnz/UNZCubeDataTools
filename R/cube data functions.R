@@ -79,6 +79,22 @@ getCube.aggregate <- function(filtered.data, optionSet) {
   }
 }
 
+getCube.aggregate.cohort <- function(filtered.data, optionSet) {
+  if (optionSet$indicator == indicator_names$wns_mean) {
+    filtered.data %>%
+      filter(!is.na(mean)) %>%
+      group_by(month, cohort) %>%
+      summarise(base_num = sum(num), weighted_value =  weighted.mean(mean, num))
+  } else if (optionSet$indicator == indicator_names$wns_median) {
+    filtered.data %>%
+      filter(!is.na(median)) %>%
+      group_by(month, cohort) %>%
+      summarise(base_num = sum(num), weighted_value =  weighted.mean(median, num))
+  } else {
+    aggregate(x = filtered.data[,c("num", "denom")], by = list(month = filtered.data$month, cohort = filtered.data$cohort), FUN=sum, na.rm = TRUE)
+  }
+}
+
 # given the data, indicate weather suppression has been applied, and if aggregation is required.
 checkCube.about <- function(data, optionSet) {
   return (list(
@@ -99,7 +115,8 @@ checkCube.about <- function(data, optionSet) {
           anyNA(data[, "mean"])
       )
     ),
-    aggregation = (nrow(data) > 73)
+    aggregation = (nrow(data) > 73),
+    multiCohort = length(optionSet$cohort) > 1
   ))
 }
 
@@ -109,7 +126,12 @@ getCube.filterAndAggregateByOptions <- function(optionSet) {
   #return as list(data=data, containsSuppression=True/False)
   about <- checkCube.about(filteredData, optionSet)
   if (about$hasData) {
-    aggregatedData <- getCube.aggregate(filteredData, optionSet)
+    if(about$multiCohort) {
+      aggregatedData <- getCube.aggregate.cohort(filteredData, optionSet)
+    } else {
+      aggregatedData <- getCube.aggregate(filteredData, optionSet)
+    }
+
     return (list(data=aggregatedData, about=about))
   } else {
     return (list(data=filteredData, about=about))
