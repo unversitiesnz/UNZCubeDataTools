@@ -116,7 +116,7 @@ checkCube.about <- function(data, optionSet) {
       )
     ),
     aggregation = (nrow(data) > 73),
-    multiCohort = length(optionSet$cohort) > 1
+    multiCohort = !is.null(optionSet$multiCohort) && optionSet$multiCohort
   ))
 }
 
