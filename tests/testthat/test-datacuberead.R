@@ -160,7 +160,7 @@ test_that("data selector - dataset1 - domestic (income)", {
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")
   expect_true(any(result == TRUE))
   data_result <- getCube.forIndicator(optionSet)
-  expect_equal(nrow(data_result), 126728)
+  expect_equal(nrow(data_result), 152804)
 
   result2 <- getCube.filteredByOptions(optionSet)
   expect_equal(nrow(result2), 73)
