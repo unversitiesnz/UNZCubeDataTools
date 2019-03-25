@@ -1,7 +1,7 @@
 Package: UNZCubeDataTools
 Type: Package
 Title: Provides access to the graduate data cube
-Version: 0.1.0
+Version: 0.2.0
 Author: Scott Henwood
 Maintainer: Scott Henwood <scott.henwood@universitiesnz.ac.nz>
 Description: Keep logic in containers

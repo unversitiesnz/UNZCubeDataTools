@@ -48,7 +48,25 @@ getCube.selector <-function(optionSet) {
 }
 
 getCube.forIndicator <- function(optionSet) {
-  datacube[[optionSet$indicator]]
+  optionSet$indicator.v2 <- indicator_names.v2[[optionSet$indicator]]
+  if (optionSet$indicator.v2 == 'wns_income') {
+    temp <- subset(datacube.v2,
+                   select = c('domestic', 'ter_com_subsector', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort',
+                              paste(optionSet$indicator.v2, 'num', sep='_'),
+                              paste(optionSet$indicator.v2, 'denom', sep='_'),
+                              paste(optionSet$indicator.v2, 'mean', sep='_'),
+                              paste(optionSet$indicator.v2, 'median', sep='_')))
+    names(temp)[names(temp) == paste(optionSet$indicator.v2, 'num', sep='_')] <- 'num'
+    names(temp)[names(temp) == paste(optionSet$indicator.v2, 'denom', sep='_')] <- 'denom'
+    names(temp)[names(temp) == paste(optionSet$indicator.v2, 'mean', sep='_')] <- 'mean'
+    names(temp)[names(temp) == paste(optionSet$indicator.v2, 'median', sep='_')] <- 'median'
+    return (temp)
+  } else {
+    temp <- subset(datacube.v2, select = c('domestic', 'ter_com_subsector', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort', paste(optionSet$indicator.v2, 'num', sep='_'), paste(optionSet$indicator.v2, 'denom', sep='_')))
+    names(temp)[names(temp) == paste(optionSet$indicator.v2, 'num', sep='_')] <- 'num'
+    names(temp)[names(temp) == paste(optionSet$indicator.v2, 'denom', sep='_')] <- 'denom'
+    return (temp)
+  }
 }
 
 #' Get the dataset based on the options passed to it.
@@ -61,6 +79,12 @@ getCube.filteredByOptions <- function(optionSet) {
   filterFunction <- getCube.selector(optionSet)
   indicator.data <- getCube.forIndicator(optionSet)
   indicator.data[filterFunction(indicator.data, optionSet),]
+}
+
+getCube.filteredByOptions.v2 <- function(optionSet) {
+  filterFunction <- getCube.selector(optionSet)
+  #indicator.data <- getCube.forIndicator(optionSet)
+  datacube.v2[filterFunction(datacube.v2, optionSet),]
 }
 
 getCube.aggregate <- function(filtered.data, optionSet) {
@@ -119,7 +143,6 @@ checkCube.about <- function(data, optionSet) {
     multiCohort = !is.null(optionSet$multiCohort) && optionSet$multiCohort
   ))
 }
-
 getCube.filterAndAggregateByOptions <- function(optionSet) {
   filteredData <- getCube.filteredByOptions(optionSet)
   #decide if suppression was applied here?
@@ -136,4 +159,11 @@ getCube.filterAndAggregateByOptions <- function(optionSet) {
   } else {
     return (list(data=filteredData, about=about))
   }
+}
+getCube.filterAndAggregateByOptions.v2 <- function(optionSet) {
+  filteredData <- getCube.filteredByOptions.v2(optionSet)
+  #decide if suppression was applied here?
+  #return as list(data=data, containsSuppression=True/False)
+  about <- checkCube.about(filteredData, optionSet)
+  return (list(data=filteredData, about=about))
 }

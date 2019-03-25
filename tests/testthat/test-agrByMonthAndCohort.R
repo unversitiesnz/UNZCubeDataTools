@@ -19,7 +19,7 @@ test_that("Get data which is aggregated by month and cohort", {
 
   aggregatedData <- getCube.aggregate.cohort(filteredData, optionSet)
   expect_equal(nrow(aggregatedData), 73 * 3)
-  optionSet$indicator <- indicator_names$wns_mean
+  optionSet$indicator <- 'Earnings from wages or salary (mean)'
   filteredData <- getCube.filteredByOptions(optionSet)
   expect_type(filteredData, "list")
 

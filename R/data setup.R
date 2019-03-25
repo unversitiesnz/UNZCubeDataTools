@@ -44,6 +44,22 @@ indicator_names = list(
   employer_change = "Employer change"
 )
 
+indicator_names.v2 = list(
+  "Overseas" = "overseas",
+  "On a benefit" = "benefit",
+  "Job Seeker benefit" = "job_seeker",
+  "Enrolled in tertiary study" = "prog",
+  "Enrolled at university" = "uni",
+  "Enrolled in higher level studies at university" = "uni_hi",
+  "Employed" = "wns_sei",
+  "Employed on wages or salaries" = "wns_income",
+  "Earnings from wages or salary (mean)" = "wns_income",
+  "Earnings from wages or salary (median)" = "wns_income",
+  "Regional mobility" = "wns_reg_ch",
+  "District mobility" = "wns_ta_ch",
+  "Employer change" = "wns_pbn_ch"
+)
+
 names(datacube) <- indicator_names
 
 # cleaning
