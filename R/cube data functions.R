@@ -165,5 +165,5 @@ getCube.filterAndAggregateByOptions.v2 <- function(optionSet) {
   #decide if suppression was applied here?
   #return as list(data=data, containsSuppression=True/False)
   about <- checkCube.about(filteredData, optionSet)
-  return (list(data=filteredData, about=about))
+  return (list(data=filteredData, about=NULL))
 }
