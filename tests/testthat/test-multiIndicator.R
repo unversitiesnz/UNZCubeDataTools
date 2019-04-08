@@ -9,7 +9,8 @@ test_that("checking if the multi indicator stuff works", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Overseas"
+    indicator = "Overseas",
+    young_grad = TRUE
   )
 
   result <- getCube.filterAndAggregateByOptions.v2(optionSet)

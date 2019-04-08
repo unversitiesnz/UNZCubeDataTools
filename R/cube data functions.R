@@ -8,7 +8,9 @@ getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
             (indicator.data$ter_com_subsector %in% optionSet$subsector | anyNA(optionSet$subsector))  &
             ((indicator.data$ethnicity %in% optionSet$eth) | anyNA(optionSet$eth)) &
             indicator.data$dataset == "dataset1" &
-            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)))
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)) &
+             (indicator.data$young_grad %in% optionSet$young_grad)
+            )
 }
 getCube.dataset1.int.select <- function(indicator.data, optionSet) {
   return (indicator.data$domestic == FALSE &
@@ -24,7 +26,8 @@ getCube.dataset2.dom.select <- function(indicator.data, optionSet) {
             (indicator.data$ter_com_subsector %in% optionSet$subsector | anyNA(optionSet$subsector)) &
             (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | anyNA(optionSet$fieldOfStudy)) &
             indicator.data$dataset == "dataset2" &
-            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)))
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)) &
+            (indicator.data$young_grad %in% optionSet$young_grad | anyNA(optionSet$young_grad)))
 }
 getCube.dataset2.int.select <-function(indicator.data, optionSet) {
   return (indicator.data$domestic == optionSet$dom &
@@ -36,7 +39,7 @@ getCube.dataset2.int.select <-function(indicator.data, optionSet) {
 }
 
 getCube.selector <-function(optionSet) {
-  if(is.na(optionSet$cohort)) {
+  if(anyNA(optionSet$cohort)) {
     datasetName <- "dataset2"
   } else {
     datasetName <- "dataset1"
@@ -51,7 +54,7 @@ getCube.forIndicator <- function(optionSet) {
   optionSet$indicator.v2 <- indicator_names.v2[[optionSet$indicator]]
   if (optionSet$indicator.v2 == 'wns_income') {
     temp <- subset(datacube.v2,
-                   select = c('domestic', 'ter_com_subsector', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort',
+                   select = c('domestic', 'ter_com_subsector', 'young_grad', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort',
                               paste(optionSet$indicator.v2, 'num', sep='_'),
                               paste(optionSet$indicator.v2, 'denom', sep='_'),
                               paste(optionSet$indicator.v2, 'mean', sep='_'),
@@ -62,7 +65,7 @@ getCube.forIndicator <- function(optionSet) {
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'median', sep='_')] <- 'median'
     return (temp)
   } else {
-    temp <- subset(datacube.v2, select = c('domestic', 'ter_com_subsector', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort', paste(optionSet$indicator.v2, 'num', sep='_'), paste(optionSet$indicator.v2, 'denom', sep='_')))
+    temp <- subset(datacube.v2, select = c('domestic', 'ter_com_subsector', 'young_grad', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort', paste(optionSet$indicator.v2, 'num', sep='_'), paste(optionSet$indicator.v2, 'denom', sep='_')))
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'num', sep='_')] <- 'num'
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'denom', sep='_')] <- 'denom'
     return (temp)

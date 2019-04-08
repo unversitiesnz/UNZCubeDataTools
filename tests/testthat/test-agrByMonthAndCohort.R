@@ -10,7 +10,8 @@ test_that("Get data which is aggregated by month and cohort", {
     fieldOfStudy = NA,
     cohort = c(2009, 2010, 2011),
     indicator = "Overseas",
-    multiCohort = TRUE
+    multiCohort = TRUE,
+    young_grad = TRUE
   )
   filteredData <- getCube.filteredByOptions(optionSet)
   expect_type(filteredData, "list")
@@ -42,7 +43,8 @@ test_that("The primary function works", {
     fieldOfStudy = NA,
     cohort = c(2009, 2010, 2011),
     indicator = "Overseas",
-    multiCohort = TRUE
+    multiCohort = TRUE,
+    young_grad = TRUE
   )
   result <- getCube.filterAndAggregateByOptions(optionSet)
   data <- result$data
@@ -62,7 +64,8 @@ test_that("The primary function works", {
     fieldOfStudy = NA,
     cohort = c(2011),
     indicator = "Overseas",
-    multiCohort = TRUE
+    multiCohort = TRUE,
+    young_grad = TRUE
   )
   result <- getCube.filterAndAggregateByOptions(optionSet)
   data <- result$data

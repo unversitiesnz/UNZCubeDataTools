@@ -10,21 +10,6 @@ if (!exists("dataDir")) {
 load(file.path(dataDir, "datacube.RData"))
 load(file.path(dataDir, "cubehelpers.RData"))
 
-datacube <- list(
-  datacube.overseas,
-  datacube.benefit,
-  datacube.job_seeker,
-  datacube.prog,
-  datacube.uni,
-  datacube.uni_hi,
-  datacube.wns_sei,
-  datacube.wns,
-  datacube.wns_income,
-  datacube.wns_income,
-  datacube.wns_reg_ch,
-  datacube.wns_ta_ch,
-  datacube.wns_pbn_ch
-)
 
 indicator_names = list(
   overseas = "Overseas",
@@ -58,7 +43,6 @@ indicator_names.v2 = list(
   "Employer change" = "wns_pbn_ch"
 )
 
-names(datacube) <- indicator_names
 
 # cleaning
 #remove(cube)

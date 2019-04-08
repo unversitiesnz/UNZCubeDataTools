@@ -5,12 +5,16 @@ domesticOptions = list("Domestic"=TRUE, "International"=FALSE)
 sexOptions = list("ALL" = NA, "Male" = 1, "Female" = 2)
 # macron issue! https://github.com/tidyverse/tibble/issues/87 & https://github.com/tidyverse/dplyr/issues/1950
 ethnicityOptions = list("ALL" = NA, "European"=1, "M\u101ori"=2, "Pasifika"=3, "Asian"=4, "Other"=5)
-studyLevelOptions = list("ALL" = NA, "Level 1-4 Certificates" = 2,
-"Certificates and Diploma Level 5-7" = 3,
-"Bachelor Degrees" = 4,
-"Honours, postgrad dipl" = 5,
-"Masters degrees" = 6,
-"Doctoral degrees" = 7
+studyLevelOptions = list("ALL" = NA, "Level 1-4 Certificates" = 1,
+"Certificates and Diploma Level 5-7" = 2,
+"Bachelor Degrees" = 3,
+"Honours, postgrad dipl" = 4,
+"Masters degrees" = 5,
+"Doctoral degrees" = 6
+)
+youngGradOptions <- list(
+  "Young Graduate" = TRUE,
+  "Mature Graduate" = FALSE
 )
 fieldOfStudyOptions = list("ALL" = NA,
   "01 Natural and Physical Sciences" = 1,

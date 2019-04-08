@@ -10,7 +10,8 @@ optionSet.dataset1.dom = list(
   subsector = c("University", "non-University"),
   fieldOfStudy = NA,
   cohort = 2009,
-  indicator = "Overseas"
+  indicator = "Overseas",
+  young_grad = TRUE
 )
 optionSet.dataset1.int = list(
   dom = FALSE,
@@ -20,7 +21,8 @@ optionSet.dataset1.int = list(
   subsector = "University",
   fieldOfStudy = NA,
   cohort = 2009,
-  indicator = "Overseas"
+  indicator = "Overseas",
+  young_grad = TRUE
 )
 optionSet.dataset2.dom = list(
   dom = TRUE,
@@ -30,7 +32,8 @@ optionSet.dataset2.dom = list(
   subsector = "University",
   fieldOfStudy = 6,
   cohort = NA,
-  indicator = "Overseas"
+  indicator = "Overseas",
+  young_grad = TRUE
 )
 optionSet.dataset2.int = list(
   dom = FALSE,
@@ -40,7 +43,8 @@ optionSet.dataset2.int = list(
   subsector = "University",
   fieldOfStudy = 6,
   cohort = NA,
-  indicator = "Overseas"
+  indicator = "Overseas",
+  young_grad = TRUE
 )
 
 #test
@@ -51,14 +55,14 @@ check_that.selectExact <- function(result, run_info = "") {
   expect_false(anyNA(result), label = "there are NA selectors (overseas)", info = run_info)
   expect_true(any(result == TRUE), info = run_info)
   expect_type(result, "logical")
-  expect_equal(length(result), nrow(datacube.overseas), info = run_info)
+  expect_equal(length(result), nrow(datacube.v2), info = run_info)
 
 
 }
 test_that("data selector - dataset1 - domestic", {
   optionSet = optionSet.dataset1.dom
-
-  result <- getCube.dataset1.dom.select(datacube.overseas,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   check_that.selectExact(result)
   expect_equal(sum(result, na.rm = TRUE), 146 * 2 * 2)
   optionSet <- list(
@@ -69,9 +73,11 @@ test_that("data selector - dataset1 - domestic", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Benefit"
+    indicator = "Benefit",
+    young_grad = TRUE
   )
-  result <- getCube.dataset1.dom.select(datacube.benefit,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")
   expect_true(any(result == TRUE))
 })
@@ -86,12 +92,13 @@ test_that("data selector - summury - sex - domestic", {
     subsector = c("University", "non-University"),
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Overseas"
+    indicator = "Overseas",
+    young_grad = TRUE
   )
-
-  result <- getCube.dataset1.dom.select(datacube.overseas,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   check_that.selectExact(result)
-  expect_equal(sum(result, na.rm = TRUE), 146 * 2 * 2)
+  expect_equal(sum(result, na.rm = TRUE), 438)
   optionSet <- list(
     dom = TRUE,
     sex = 1,
@@ -100,9 +107,11 @@ test_that("data selector - summury - sex - domestic", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "On a benefit"
+    indicator = "On a benefit",
+    young_grad = TRUE
   )
-  result <- getCube.dataset1.dom.select(datacube.benefit,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")
   expect_true(any(result == TRUE))
 })
@@ -117,10 +126,12 @@ test_that("data selector - all (subtotals) - domestic", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Overseas"
+    indicator = "Overseas",
+    young_grad = TRUE
   )
 
-  result <- getCube.dataset1.dom.select(datacube.overseas,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   check_that.selectExact(result)
   expect_equal(sum(result, na.rm = TRUE), 73 * 2)
   optionSet <- list(
@@ -131,9 +142,11 @@ test_that("data selector - all (subtotals) - domestic", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "On a benefit"
+    indicator = "On a benefit",
+    young_grad = TRUE
   )
-  result <- getCube.dataset1.dom.select(datacube.benefit,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")
   expect_true(any(result == TRUE))
   expect_equal(sum(result, na.rm = TRUE), 73 * 5)
@@ -146,10 +159,12 @@ test_that("data selector - all (subtotals) - domestic", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Overseas"
+    indicator = "Overseas",
+    young_grad = TRUE
   )
 
-  result <- getCube.dataset1.dom.select(datacube.overseas,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   check_that.selectExact(result)
   expect_equal(sum(result, na.rm = TRUE), 73 * 7)
 
@@ -161,10 +176,11 @@ test_that("data selector - all (subtotals) - domestic", {
     subsector = NA,
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Overseas"
+    indicator = "Overseas",
+    young_grad = TRUE
   )
-
-  result <- getCube.dataset1.dom.select(datacube.overseas,optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData,optionSet)
   check_that.selectExact(result)
   expect_equal(sum(result, na.rm = TRUE), 73 * 2)
 })
@@ -178,9 +194,11 @@ test_that("All and other options play nice", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Overseas"
+    indicator = "Overseas",
+    young_grad = TRUE
   )
-  result <- getCube.dataset1.dom.select(datacube.overseas, optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData, optionSet)
   expect_equal(sum(result, na.rm = TRUE), 73 * 5)
 
   optionSet = list(
@@ -191,9 +209,11 @@ test_that("All and other options play nice", {
     subsector = "University",
     fieldOfStudy = NA,
     cohort = 2009,
-    indicator = "Overseas"
+    indicator = "Overseas",
+    young_grad = TRUE
   )
-  result <- getCube.dataset1.dom.select(datacube.overseas, optionSet)
+  testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(testData, optionSet)
   expect_equal(sum(result, na.rm = TRUE), 73 * 5)
 
 })
