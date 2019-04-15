@@ -163,10 +163,21 @@ getCube.filterAndAggregateByOptions <- function(optionSet) {
     return (list(data=filteredData, about=about))
   }
 }
+getCube.aggregate.v2 <- function(filtered.data, optionSet) {
+  #indicator_names.v2
+  proportionIndicators <- indicator_names.v2[!indicator_names.v2 == "wns_income"]
+  num_titles <- paste(proportionIndicators, "num", sep="_")
+  denom_titles <- paste(proportionIndicators, "denom", sep="_")
+  titles <- append(num_titles, denom_titles)
+  # titles <- distinct(titles)
+  return (aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE))
+}
 getCube.filterAndAggregateByOptions.v2 <- function(optionSet) {
   filteredData <- getCube.filteredByOptions.v2(optionSet)
+
+  filteredData2 <- getCube.aggregate.v2(filteredData, optionSet)
   #decide if suppression was applied here?
   #return as list(data=data, containsSuppression=True/False)
-  about <- checkCube.about(filteredData, optionSet)
-  return (list(data=filteredData, about=NULL))
+  #about <- checkCube.about(filteredData, optionSet)
+  return (list(data=filteredData2, about=NULL))
 }
