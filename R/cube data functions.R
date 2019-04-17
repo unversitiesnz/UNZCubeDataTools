@@ -165,12 +165,17 @@ getCube.filterAndAggregateByOptions <- function(optionSet) {
 }
 getCube.aggregate.v2 <- function(filtered.data, optionSet) {
   #indicator_names.v2
-  proportionIndicators <- indicator_names.v2[!indicator_names.v2 == "wns_income"]
+  proportionIndicators <- unique(indicator_names.v2)
   num_titles <- paste(proportionIndicators, "num", sep="_")
   denom_titles <- paste(proportionIndicators, "denom", sep="_")
   titles <- append(num_titles, denom_titles)
   # titles <- distinct(titles)
-  return (aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE))
+  proportionData <- aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
+  incomeData <- filtered.data %>%
+    filter(!is.na(wns_income_mean)) %>%
+    group_by(month) %>%
+    summarise(wns_income_mean = weighted.mean(wns_income_mean, wns_income_num), wns_income_median = weighted.mean(wns_income_median, wns_income_num))
+  return (merge(proportionData, incomeData))
 }
 getCube.filterAndAggregateByOptions.v2 <- function(optionSet) {
   filteredData <- getCube.filteredByOptions.v2(optionSet)

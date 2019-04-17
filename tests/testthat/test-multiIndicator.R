@@ -17,6 +17,12 @@ test_that("checking if the multi indicator stuff works", {
   expect_equal(nrow(result$data), 73)
 })
 
+testFunction <- function(data) {
+  print(typeof(data))
+  print(data)
+  return(10)
+}
+
 test_that("agregate multi indicator data", {
   optionSet = list(
     dom = TRUE,
@@ -31,13 +37,15 @@ test_that("agregate multi indicator data", {
 
   filtered.data <- getCube.filteredByOptions.v2(optionSet)
 
-  library(dplyr)
-  proportionIndicators <- indicator_names.v2[!indicator_names.v2 == "wns_income"]
-  num_titles <- paste(proportionIndicators, "num", sep="_")
-  denom_titles <- paste(proportionIndicators, "denom", sep="_")
-  titles <- append(num_titles, denom_titles)
+  #library(dplyr)
+  # proportionIndicators <- indicator_names.v2[!indicator_names.v2 == "wns_income"]
+  #proportionIndicators <- unique(indicator_names.v2)
+  #num_titles <- paste(proportionIndicators, "num", sep="_")
+  #denom_titles <- paste(proportionIndicators, "denom", sep="_")
+  #titles <- append(num_titles, denom_titles)
   #distinct(titles)
-  #aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
+  #aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=testFunction)
+  #apply(filtered.data[,titles], MARGIN = 2, FUN = testFunction)
 
 
   result <- getCube.aggregate.v2(filtered.data, optionSet)
