@@ -1,7 +1,7 @@
 context("test-datacuberead")
 ###### test objects  ######
 optionSet.dataset1.dom = list(
-  dom = TRUE,
+  dom = 1,
   sex = 1,
   eth = 1,
   studyLevel = 6,
@@ -9,10 +9,10 @@ optionSet.dataset1.dom = list(
   fieldOfStudy = NA,
   cohort = 2009,
   indicator = "Overseas",
-  young_grad = TRUE
+  young_grad = 1
 )
 optionSet.dataset1.int = list(
-  dom = FALSE,
+  dom = 0,
   sex = NA,
   eth = NA,
   studyLevel = 6,
@@ -20,10 +20,10 @@ optionSet.dataset1.int = list(
   fieldOfStudy = NA,
   cohort = 2009,
   indicator = "Overseas",
-  young_grad = TRUE
+  young_grad = -1
 )
 optionSet.dataset2.dom = list(
-  dom = TRUE,
+  dom = 1,
   sex = 1,
   eth = 1,
   studyLevel = 6,
@@ -31,10 +31,10 @@ optionSet.dataset2.dom = list(
   fieldOfStudy = 6,
   cohort = NA,
   indicator = "Overseas",
-  young_grad = TRUE
+  young_grad = 1
 )
 optionSet.dataset2.int = list(
-  dom = FALSE,
+  dom = 0,
   sex = NA,
   eth = NA,
   studyLevel = 6,
@@ -42,7 +42,7 @@ optionSet.dataset2.int = list(
   fieldOfStudy = 6,
   cohort = NA,
   indicator = "Overseas",
-  young_grad = TRUE
+  young_grad = -1
 )
 ###### data rows select #######
 
@@ -148,12 +148,19 @@ test_that("I get the right data", {
   expect_equal(nrow(result), 73)
 })
 
+##### get filter issue #####
+
+test_that("get filter", {
+
+
+})
+
 #### test income ind filter #####
 
 test_that("data selector - dataset1 - domestic (income)", {
 
   optionSet <- list(
-    dom = TRUE,
+    dom = 1,
     sex = 1,
     eth = 1,
     studyLevel = 6,
@@ -161,7 +168,7 @@ test_that("data selector - dataset1 - domestic (income)", {
     fieldOfStudy = NA,
     cohort = 2009,
     indicator = "Earnings from wages or salary (mean)",
-    young_grad = TRUE
+    young_grad = 1
   )
 
   testData <- getCube.forIndicator(optionSet)
@@ -184,22 +191,22 @@ test_that("data selector - dataset1 - domestic (income)", {
   optionSet <- list(
     indicator = "Overseas",
     cohort = NA,
-    dom = TRUE,
+    dom = 1,
     sex = 2,
     ethnicity = 2,
     subsector = "University",
     studyLevel = 1,
     fieldOfStudy = 8,
-    young_grad = TRUE
+    young_grad = 1
   )
 
 
-  result2 <- getCube.filteredByOptions(optionSet)
+  result2 <- getCube.filteredByOptions.v2(optionSet)
   # expect_equal(nrow(result2), 0)
   expect_true(anyNA(result2$num))
 
 
-  result3 <- getCube.filterAndAggregateByOptions(optionSet)$data
+  result3 <- getCube.filterAndAggregateByOptions.v2(optionSet)$data
   #expect_equal(nrow(result3), 0)
 
   # data no longer missing, would need a better way to test

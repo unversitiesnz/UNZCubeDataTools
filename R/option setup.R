@@ -1,11 +1,11 @@
 # set options
 
-domesticOptions = list("Domestic"=TRUE, "International"=FALSE)
+domesticOptions = list("ALL" = -1,"Domestic"=1, "International"=0)
 
-sexOptions = list("ALL" = NA, "Male" = 1, "Female" = 2)
+sexOptions = list("ALL" = -1, "Male" = 1, "Female" = 2)
 # macron issue! https://github.com/tidyverse/tibble/issues/87 & https://github.com/tidyverse/dplyr/issues/1950
-ethnicityOptions = list("ALL" = NA, "European"=1, "M\u101ori"=2, "Pasifika"=3, "Asian"=4, "Other"=5)
-studyLevelOptions = list("ALL" = NA, "Level 1-4 Certificates" = 1,
+ethnicityOptions = list("ALL" = -1, "European"=1, "M\u101ori"=2, "Pasifika"=3, "Asian"=4, "Other"=5)
+studyLevelOptions = list("ALL" = -1, "Level 1-4 Certificates" = 1,
 "Certificates and Diploma Level 5-7" = 2,
 "Bachelor Degrees" = 3,
 "Honours, postgrad dipl" = 4,
@@ -13,10 +13,11 @@ studyLevelOptions = list("ALL" = NA, "Level 1-4 Certificates" = 1,
 "Doctoral degrees" = 6
 )
 youngGradOptions <- list(
-  "Young Graduate" = TRUE,
-  "Mature Graduate" = FALSE
+  "ALL" = -1,
+  "Young Graduate" = 1,
+  "Mature Graduate" = 0
 )
-fieldOfStudyOptions = list("ALL" = NA,
+fieldOfStudyOptions = list("ALL" = -1,
   "01 Natural and Physical Sciences" = 1,
   "02 Information Technology" = 2,
   "03 Engineering and Related Technologies" = 3,
@@ -31,9 +32,9 @@ fieldOfStudyOptions = list("ALL" = NA,
   "12 Mixed Field Programmes" = 12
 )
 
-subsectorOptions = list("All" = NA, "University", "non-University")
+subsectorOptions = list("All" = -1, "University", "non-University")
 
-cohortOptions = list("All" = NA,"2009" = 2009, "2010" = 2010, "2011" = 2011)
+cohortOptions = list("All" = -1,"2009" = 2009, "2010" = 2010, "2011" = 2011)
 
 
 sexToId <- function(sex) {

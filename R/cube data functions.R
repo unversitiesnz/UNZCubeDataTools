@@ -2,40 +2,40 @@ library(dplyr)
 
 getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
   #print(anyNA(optionSet$eth))
-  return ( (indicator.data$sex %in% optionSet$sex | anyNA(optionSet$sex)) &
+  return ( (indicator.data$sex %in% optionSet$sex | -1 %in% optionSet$sex) &
             indicator.data$domestic %in% optionSet$dom &
             indicator.data$cohort %in% optionSet$cohort &
-            (indicator.data$ter_com_subsector %in% optionSet$subsector | anyNA(optionSet$subsector))  &
-            ((indicator.data$ethnicity %in% optionSet$eth) | anyNA(optionSet$eth)) &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | -1 %in% optionSet$subsector)  &
+            ((indicator.data$ethnicity %in% optionSet$eth) | -1 %in% optionSet$eth) &
             indicator.data$dataset == "dataset1" &
-            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)) &
-             (indicator.data$young_grad %in% optionSet$young_grad)
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | -1 %in% optionSet$studyLevel) &
+             (indicator.data$young_grad %in% optionSet$young_grad | -1 %in% optionSet$young_grad)
             )
 }
 getCube.dataset1.int.select <- function(indicator.data, optionSet) {
-  return (indicator.data$domestic == FALSE &
+  return ((indicator.data$domestic == optionSet$dom | -1 %in% optionSet$dom) &
             indicator.data$cohort %in% optionSet$cohort &
-            (indicator.data$ter_com_subsector %in% optionSet$subsector | anyNA(optionSet$subsector)) &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | -1 %in% optionSet$subsector) &
             indicator.data$dataset == "dataset1" &
-            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)))
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | -1 %in% optionSet$studyLevel))
 }
 getCube.dataset2.dom.select <- function(indicator.data, optionSet) {
   return (indicator.data$domestic == optionSet$dom &
-            (indicator.data$sex %in% optionSet$sex | anyNA(optionSet$sex)) &
-            (indicator.data$ethnicity %in% optionSet$eth | anyNA(optionSet$eth))  &
-            (indicator.data$ter_com_subsector %in% optionSet$subsector | anyNA(optionSet$subsector)) &
-            (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | anyNA(optionSet$fieldOfStudy)) &
+            (indicator.data$sex %in% optionSet$sex | -1 %in% optionSet$sex) &
+            (indicator.data$ethnicity %in% optionSet$eth | -1 %in% optionSet$eth)  &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | -1 %in% optionSet$subsector) &
+            (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | -1 %in% optionSet$fieldOfStudy) &
             indicator.data$dataset == "dataset2" &
-            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)) &
-            (indicator.data$young_grad %in% optionSet$young_grad | anyNA(optionSet$young_grad)))
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | -1 %in% optionSet$studyLevel) &
+            (indicator.data$young_grad %in% optionSet$young_grad | -1 %in% optionSet$young_grad))
 }
 getCube.dataset2.int.select <-function(indicator.data, optionSet) {
-  return (indicator.data$domestic == optionSet$dom &
+  return ((indicator.data$domestic == optionSet$dom | -1 %in% optionSet$dom) &
 
-            (indicator.data$ter_com_subsector %in% optionSet$subsector | anyNA(optionSet$subsector)) &
-            (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | anyNA(optionSet$fieldOfStudy)) &
+            (indicator.data$ter_com_subsector %in% optionSet$subsector | -1 %in% optionSet$subsector) &
+            (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | -1 %in% optionSet$fieldOfStudy) &
             indicator.data$dataset == "dataset2" &
-            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | anyNA(optionSet$studyLevel)))
+            (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | -1 %in% optionSet$studyLevel))
 }
 
 getCube.selector <-function(optionSet) {
@@ -45,8 +45,8 @@ getCube.selector <-function(optionSet) {
     datasetName <- "dataset1"
   }
   return (switch(datasetName,
-         "dataset1" = switch(as.character(optionSet$dom), "TRUE" = getCube.dataset1.dom.select, "FALSE" = getCube.dataset1.int.select),
-         "dataset2" = switch(as.character(optionSet$dom), "TRUE" = getCube.dataset2.dom.select, "FALSE" = getCube.dataset2.int.select)))
+         "dataset1" = switch(as.character(optionSet$dom), "1" = getCube.dataset1.dom.select, "0" = getCube.dataset1.int.select, "-1" = getCube.dataset1.int.select),
+         "dataset2" = switch(as.character(optionSet$dom), "1" = getCube.dataset2.dom.select, "0" = getCube.dataset2.int.select, "-1" = getCube.dataset2.int.select)))
   #getCube.dataset1.dom.select
 }
 
@@ -170,11 +170,19 @@ getCube.aggregate.v2 <- function(filtered.data, optionSet) {
   denom_titles <- paste(proportionIndicators, "denom", sep="_")
   titles <- append(num_titles, denom_titles)
   # titles <- distinct(titles)
-  proportionData <- aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
-  incomeData <- filtered.data %>%
-    filter(!is.na(wns_income_mean)) %>%
-    group_by(month) %>%
-    summarise(wns_income_mean = weighted.mean(wns_income_mean, wns_income_num), wns_income_median = weighted.mean(wns_income_median, wns_income_num))
+  if (!is.null(optionSet$dimCohort) && optionSet$dimCohort) {
+    proportionData <- aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month, cohort = filtered.data$cohort), FUN=sum, na.rm = TRUE)
+    incomeData <- filtered.data %>%
+      filter(!is.na(wns_income_mean)) %>%
+      group_by(month, cohort) %>%
+      summarise(wns_income_mean = weighted.mean(wns_income_mean, wns_income_num), wns_income_median = weighted.mean(wns_income_median, wns_income_num))
+  } else {
+    proportionData <- aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
+    incomeData <- filtered.data %>%
+      filter(!is.na(wns_income_mean)) %>%
+      group_by(month) %>%
+      summarise(wns_income_mean = weighted.mean(wns_income_mean, wns_income_num), wns_income_median = weighted.mean(wns_income_median, wns_income_num))
+  }
   return (merge(proportionData, incomeData))
 }
 getCube.filterAndAggregateByOptions.v2 <- function(optionSet) {

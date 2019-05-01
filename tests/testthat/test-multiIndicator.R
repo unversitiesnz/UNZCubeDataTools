@@ -14,7 +14,7 @@ test_that("checking if the multi indicator stuff works", {
 
   result <- getCube.filterAndAggregateByOptions.v2(optionSet)
 
-  expect_equal(nrow(result$data), 73)
+  expect_equal(nrow(result$data), 73) # a row is being dropped.
 })
 
 testFunction <- function(data) {
@@ -55,4 +55,26 @@ test_that("agregate multi indicator data", {
 
   result2 <- getCube.filterAndAggregateByOptions.v2(optionSet)
   expect_equal(nrow(result2$data), 73)
+})
+
+test_that("Dim Cohort", {
+  optionSet = list(
+    dom = TRUE,
+    sex = 1,
+    eth = 1,
+    studyLevel = c(2,3,4),
+    subsector = "University",
+    fieldOfStudy = NA,
+    cohort = c(2009, 2010),
+    young_grad = TRUE,
+    dimCohort = TRUE
+  )
+
+  filteredData <- getCube.filteredByOptions.v2(optionSet)
+
+  expect_equal(nrow(filteredData), 73 * 2 * 3)
+
+  filteredData2 <- getCube.aggregate.v2(filteredData, optionSet)
+
+  expect_equal(nrow(filteredData2), 73 * 2)
 })
