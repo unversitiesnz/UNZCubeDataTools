@@ -36,6 +36,7 @@ indicator_names.v2 = list(
   "Enrolled in higher level studies at university" = "uni_hi",
   "Employed" = "wns_sei",
   "Employed on wages or salaries" = "wns_income",
+  "Not in labour force" = "not_in_lf",
   "Earnings from wages or salary (mean)" = "wns_income",
   "Earnings from wages or salary (median)" = "wns_income",
   "Regional mobility" = "wns_reg_ch",
