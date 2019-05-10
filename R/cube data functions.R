@@ -51,6 +51,9 @@ getCube.selector <-function(optionSet) {
 }
 
 getCube.forIndicator <- function(optionSet) {
+  print("!!!!Deprecated (getCube.forIndicator)!!!!!!")
+  print("Unsable? Will be removed?")
+  warning("This function might break!")
   optionSet$indicator.v2 <- indicator_names.v2[[optionSet$indicator]]
   if (optionSet$indicator.v2 == 'wns_income') {
     temp <- subset(datacube.v2,
@@ -86,6 +89,7 @@ getCube.filteredByOptions <- function(optionSet) {
 
 getCube.filteredByOptions.v2 <- function(optionSet) {
   filterFunction <- getCube.selector(optionSet)
+  print(paste("selecting this meany rows:", sum(filterFunction(datacube.v2, optionSet))))
   #indicator.data <- getCube.forIndicator(optionSet)
   datacube.v2[filterFunction(datacube.v2, optionSet),]
 }
@@ -172,12 +176,14 @@ getCube.aggregate.v2 <- function(filtered.data, optionSet) {
   # titles <- distinct(titles)
   if (!is.null(optionSet$dimCohort) && optionSet$dimCohort) {
     proportionData <- aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month, cohort = filtered.data$cohort), FUN=sum, na.rm = TRUE)
+
     incomeData <- filtered.data %>%
       filter(!is.na(wns_income_mean)) %>%
       group_by(month, cohort) %>%
       summarise(wns_income_mean = weighted.mean(wns_income_mean, wns_income_num), wns_income_median = weighted.mean(wns_income_median, wns_income_num))
   } else {
     proportionData <- aggregate(x = filtered.data[,titles], by = list(month = filtered.data$month), FUN=sum, na.rm = TRUE)
+    #print(filtered.data$wns_income_mean)
     incomeData <- filtered.data %>%
       filter(!is.na(wns_income_mean)) %>%
       group_by(month) %>%

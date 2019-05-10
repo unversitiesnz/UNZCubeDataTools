@@ -2,7 +2,7 @@ context("test-multiIndicator")
 
 test_that("checking if the multi indicator stuff works", {
   optionSet = list(
-    dom = TRUE,
+    dom = 1,
     sex = 1,
     eth = 1,
     studyLevel = 6,
@@ -25,7 +25,7 @@ testFunction <- function(data) {
 
 test_that("agregate multi indicator data", {
   optionSet = list(
-    dom = TRUE,
+    dom = 1,
     sex = 1,
     eth = 1,
     studyLevel = c(2,3,4),
@@ -59,7 +59,7 @@ test_that("agregate multi indicator data", {
 
 test_that("Dim Cohort", {
   optionSet = list(
-    dom = TRUE,
+    dom = 1,
     sex = 1,
     eth = 1,
     studyLevel = c(2,3,4),
