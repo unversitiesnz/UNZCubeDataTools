@@ -72,8 +72,7 @@ test_that("data selector - dataset1 - domestic", {
     indicator = "On a benefit",
     young_grad = TRUE
   )
-  testData <- getCube.forIndicator(optionSet)
-  result <- getCube.dataset1.dom.select(testData,optionSet)
+  result <- getCube.dataset1.dom.select(datacube.v2,optionSet)
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")
   expect_true(any(result == TRUE))
 })
@@ -117,8 +116,8 @@ test_that("get data filter function", {
   selectFunction <- getCube.selector(optionSet)
   expect_type(selectFunction, "closure")
   # don't know how to check what function is returned, test by using it?
-  testData <- getCube.forIndicator(optionSet)
-  result <- selectFunction(testData,optionSet)
+  #testData <- getCube.forIndicator(optionSet)
+  result <- selectFunction(datacube.v2,optionSet)
   check_that.selectExact(result, "optionSet dataset1 int")
 
   #otpion 4
@@ -133,18 +132,12 @@ test_that("get data filter function", {
 
 ###### choose dataset #####
 
-test_that("I can choose the right dataset", {
-  optionSet = optionSet.dataset1.dom
-  resultData <- getCube.forIndicator(optionSet)
-  expect_type(resultData, "list")
-  expect_equal(ncol(resultData),12)
-})
 
 ###### get filtered data ######
 
 test_that("I get the right data", {
   optionSet = optionSet.dataset1.dom
-  result <- getCube.filteredByOptions(optionSet)
+  result <- getCube.filteredByOptions.v2(optionSet)
   expect_equal(nrow(result), 73)
 })
 
@@ -171,16 +164,16 @@ test_that("data selector - dataset1 - domestic (income)", {
     young_grad = 1
   )
 
-  testData <- getCube.forIndicator(optionSet)
-  result <- getCube.dataset1.dom.select(testData,optionSet)
+  #testData <- getCube.forIndicator(optionSet)
+  result <- getCube.dataset1.dom.select(datacube.v2,optionSet)
   expect_false(anyNA(result), label = "there are NA selectors (benefit)")
   expect_true(any(result == TRUE))
-  data_result <- getCube.forIndicator(optionSet)
-  expect_equal(nrow(data_result), 253076)
+  #data_result <- getCube.forIndicator(optionSet)
+  expect_equal(nrow(datacube.v2), 253076)
 
-  result2 <- getCube.filteredByOptions(optionSet)
+  result2 <- getCube.filteredByOptions.v2(optionSet)
   expect_equal(nrow(result2), 73)
-  result3 <- getCube.filterAndAggregateByOptions(optionSet)$data
+  result3 <- getCube.filterAndAggregateByOptions.v2(optionSet)$data
   expect_equal(nrow(result3), 73) # I expect income missing due to suppression is to blame, can live with, should sort out.
 })
 
@@ -203,7 +196,7 @@ test_that("data selector - dataset1 - domestic (income)", {
 
   result2 <- getCube.filteredByOptions.v2(optionSet)
   # expect_equal(nrow(result2), 0)
-  expect_true(anyNA(result2$num))
+  expect_true(anyNA(result2$overseas_num))
 
 
   result3 <- getCube.filterAndAggregateByOptions.v2(optionSet)$data

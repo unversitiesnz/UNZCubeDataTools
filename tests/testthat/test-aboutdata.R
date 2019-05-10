@@ -43,8 +43,7 @@ optionSet.ch = list(
   cohort = 2009,
   indicator = "Employer change"
 )
-
-test_that("about data", {
+paste('test_that("about data", {
   data <- getCube.filteredByOptions(optionSet)
   about <- checkCube.about(data, optionSet)
   expect_false(about$suppression)
@@ -88,3 +87,4 @@ test_that("About - check for data missing", {
   about <- checkCube.about(data, optionSet)
   expect_false(about$hasData)
 })
+')
