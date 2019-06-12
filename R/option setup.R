@@ -1,8 +1,8 @@
 # set options
 
-domesticOptions = list("ALL" = -1,"Domestic"=1, "International"=0)
+domesticOptions = list("Combined" = -1,"Domestic"=1, "International"=0)
 
-sexOptions = list("ALL" = -1, "Male" = 1, "Female" = 2)
+sexOptions = list("Combined" = -1, "Male" = 1, "Female" = 2)
 # macron issue! https://github.com/tidyverse/tibble/issues/87 & https://github.com/tidyverse/dplyr/issues/1950
 ethnicityOptions = list("ALL" = -1, "European"=1, "M\u101ori"=2, "Pasifika"=3, "Asian"=4, "Other"=5)
 studyLevelOptions = list("ALL" = -1, "Level 1-4 Certificates" = 1,
@@ -13,7 +13,7 @@ studyLevelOptions = list("ALL" = -1, "Level 1-4 Certificates" = 1,
 "Doctoral degrees" = 6
 )
 youngGradOptions <- list(
-  "ALL" = -1,
+  "Combined" = -1,
   "Young Graduate" = 1,
   "Mature Graduate" = 0
 )
@@ -32,7 +32,7 @@ fieldOfStudyOptions = list("ALL" = -1,
   "12 Mixed Field Programmes" = 12
 )
 
-subsectorOptions = list("All" = -1, "University", "non-University")
+subsectorOptions = list("Combined" = -1, "University", "non-University")
 
 cohortOptions = list("All" = -1,"2009" = 2009, "2010" = 2010, "2011" = 2011)
 
