@@ -1,0 +1,46 @@
+---
+title: "Explanation of UNZCubeDataTools package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(UNZCubeDataTools)
+```
+
+### man 
+Documentation (currently for a single function)
+
+### DESCRIPTION 
+Package metadata
+
+### cubehelpers.RData 
+Contains a table of descriptions of the variables (e.g., what it means for an individual to be ‘Overseas’)
+
+### datacube.RData 
+Contains datacube.v2, the summary data by group being fed into the graphs for this tool
+
+### shinyappload.R 
+Runs the following codes, all contained within the folder R:
+
+#### a.	option setup.R 
+Creates lists of codings for each possible value of each variable. E.g. for youngGradOptions, Combined = -1, Young Graduate = 1, and Mature Graduate = 0
+
+#### b.	data setup.R 
+Does some tidying and descriptions around variable names
+
+#### c.	cube data functions.R
+First creates a series of functions (getCube….select()), two for domestic students and two for international students, that take an indicator.data and optionSet argument and return a logical value. It checks whether the selected variable option (sex, ethnicity, etc.) is in the selected dataset.
+
+### 6.	
+Tests performs tests to ensure functions work as expected
