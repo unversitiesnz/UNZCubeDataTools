@@ -1,5 +1,11 @@
 library(dplyr)
 
+#Recall that -1 indicates that "All/Combined" has been selected for that variable.
+#Also recall that we have much less data available for international students. We do not have
+#ethnicity, sex, or age information, just level and field of study.
+
+
+#These functions check that all selection variables are in fact available.
 getCube.dataset1.dom.select <- function(indicator.data, optionSet) {
   #print(anyNA(optionSet$eth))
   return ( (indicator.data$sex %in% optionSet$sex | -1 %in% optionSet$sex) &
@@ -31,12 +37,16 @@ getCube.dataset2.dom.select <- function(indicator.data, optionSet) {
 }
 getCube.dataset2.int.select <-function(indicator.data, optionSet) {
   return ((indicator.data$domestic == optionSet$dom | -1 %in% optionSet$dom) &
-
             (indicator.data$ter_com_subsector %in% optionSet$subsector | -1 %in% optionSet$subsector) &
             (indicator.data$ter_com_NZSCED %in% optionSet$fieldOfStudy | -1 %in% optionSet$fieldOfStudy) &
             indicator.data$dataset == "dataset2" &
             (indicator.data$ter_com_qual_type %in% optionSet$studyLevel | -1 %in% optionSet$studyLevel))
 }
+
+#The following function, given an optionSet, returns a function (one of the four written above.
+# The specific function, e.g. getCube.dataset1.dom.select, depends on whether any of
+# the cohorts specified are missing (if so, using dataset2), and whether we are looking
+# at international students, domestic students, or both.
 
 getCube.selector <-function(optionSet) {
   if(anyNA(optionSet$cohort)) {
@@ -45,8 +55,16 @@ getCube.selector <-function(optionSet) {
     datasetName <- "dataset1"
   }
   return (switch(datasetName,
-         "dataset1" = switch(as.character(optionSet$dom), "1" = getCube.dataset1.dom.select, "0" = getCube.dataset1.int.select, "-1" = getCube.dataset1.int.select),
-         "dataset2" = switch(as.character(optionSet$dom), "1" = getCube.dataset2.dom.select, "0" = getCube.dataset2.int.select, "-1" = getCube.dataset2.int.select)))
+                 "dataset1" = switch(as.character(optionSet$dom),
+                                     "1" = getCube.dataset1.dom.select,
+                                     "0" = getCube.dataset1.int.select,
+                                     "-1" = getCube.dataset1.int.select),
+
+                 "dataset2" = switch(as.character(optionSet$dom),
+                                     "1" = getCube.dataset2.dom.select,
+                                     "0" = getCube.dataset2.int.select,
+                                     "-1" = getCube.dataset2.int.select)
+         ))
   #getCube.dataset1.dom.select
 }
 
@@ -54,21 +72,32 @@ getCube.forIndicator <- function(optionSet) {
   print("!!!!Deprecated (getCube.forIndicator)!!!!!!")
   print("Unsable? Will be removed?")
   warning("This function might break!")
+  #indicator_names.v2 is a list of detailed and code-names for variables, created in data setup.R
+  #optionSet$indicator is the full detailed name of an indicator such as "Employed on wages or salaries.
+  #The following line converts it to its codename, "wns_income".
   optionSet$indicator.v2 <- indicator_names.v2[[optionSet$indicator]]
+
+  #Following code returns a dataset with selected variables from datacube, creates ones with parameter suffixes to indicator variable
+  # (more for income indicator) and then removes the indicator variable from the names
   if (optionSet$indicator.v2 == 'wns_income') {
+
     temp <- subset(datacube.v2,
                    select = c('domestic', 'ter_com_subsector', 'young_grad', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort',
                               paste(optionSet$indicator.v2, 'num', sep='_'),
                               paste(optionSet$indicator.v2, 'denom', sep='_'),
                               paste(optionSet$indicator.v2, 'mean', sep='_'),
                               paste(optionSet$indicator.v2, 'median', sep='_')))
+
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'num', sep='_')] <- 'num'
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'denom', sep='_')] <- 'denom'
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'mean', sep='_')] <- 'mean'
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'median', sep='_')] <- 'median'
     return (temp)
+
   } else {
-    temp <- subset(datacube.v2, select = c('domestic', 'ter_com_subsector', 'young_grad', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort', paste(optionSet$indicator.v2, 'num', sep='_'), paste(optionSet$indicator.v2, 'denom', sep='_')))
+    temp <- subset(datacube.v2, select = c('domestic', 'ter_com_subsector', 'young_grad', 'sex', 'ethnicity', 'ter_com_qual_type', 'ter_com_NZSCED', 'month', 'dataset', 'cohort',
+                                           paste(optionSet$indicator.v2, 'num', sep='_'),
+                                           paste(optionSet$indicator.v2, 'denom', sep='_')))
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'num', sep='_')] <- 'num'
     names(temp)[names(temp) == paste(optionSet$indicator.v2, 'denom', sep='_')] <- 'denom'
     return (temp)
@@ -89,7 +118,7 @@ getCube.filteredByOptions <- function(optionSet) {
 
 getCube.filteredByOptions.v2 <- function(optionSet) {
   filterFunction <- getCube.selector(optionSet)
-  print(paste("selecting this meany rows:", sum(filterFunction(datacube.v2, optionSet))))
+  print(paste("selecting this many rows:", sum(filterFunction(datacube.v2, optionSet))))
   #indicator.data <- getCube.forIndicator(optionSet)
   datacube.v2[filterFunction(datacube.v2, optionSet),]
 }
@@ -126,7 +155,7 @@ getCube.aggregate.cohort <- function(filtered.data, optionSet) {
   }
 }
 
-# given the data, indicate weather suppression has been applied, and if aggregation is required.
+# given the data, indicate whether suppression has been applied, and if aggregation is required.
 checkCube.about <- function(data, optionSet) {
   return (list(
     hasData = (

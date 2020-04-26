@@ -42,5 +42,12 @@ Does some tidying and descriptions around variable names
 #### c.	cube data functions.R
 First creates a series of functions (getCube….select()), two for domestic students and two for international students, that take an indicator.data and optionSet argument and return a logical value. It checks whether the selected variable option (sex, ethnicity, etc.) is in the selected dataset.
 
-### 6.	
-Tests performs tests to ensure functions work as expected
+### Tests	
+Performs tests to ensure functions work as expected
+
+
+## Explanation of variable
+A common variable that is passed to functions is `optionSet`. The meaning of this is as follows:  
+
+A list/vector with the following fields: list(dom = bool, sex = int, eth = int, studyLevel = int, subsector = string, fieldOfStudy = int, cohort = int, indicator = string).
+
