@@ -13,10 +13,14 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-
+What follows is a list and description of each component folder and file contained within the package repository.
 ```{r setup}
 library(UNZCubeDataTools)
 ```
+
+
+### *Data source for entire tool*: datacube.RData 
+Contains datacube.v2, the summary data by group being fed into the graphs for this tool
 
 ### man 
 Documentation (currently for a single function)
@@ -26,9 +30,6 @@ Package metadata
 
 ### cubehelpers.RData 
 Contains a table of descriptions of the variables (e.g., what it means for an individual to be ‘Overseas’)
-
-### datacube.RData 
-Contains datacube.v2, the summary data by group being fed into the graphs for this tool
 
 ### shinyappload.R 
 Runs the following codes, all contained within the folder R:
@@ -46,20 +47,22 @@ First creates a series of functions (getCube….select()), two for domestic stud
 Performs tests to ensure functions work as expected
 
 
-## Explanation of variable
+## Additional notes
+
+### Explanation of variable optionSet
 A common variable that is passed to functions is `optionSet`. The meaning of this is as follows:  
 
 A list/vector with the following fields: list(dom = bool, sex = int, eth = int, studyLevel = int, subsector = string, fieldOfStudy = int, cohort = int, indicator = string).
 
-
-
-## Cube Data Functions process:
-Conditioners:
+### Cube Data Functions process:
+NB:   
 International students only have field and level of study data available. We need to deal with these
-two groups differently.
-For domestic students where income data is available, we deal with it differently from other data.
+two groups differently.  
+For domestic students where income data is available, we deal with it differently from other data. Income data has means and medians available, whereas other data such as number overseas is a simple division of numerator (number of students overseas) divided by denominator (total number of students).   
+
+The first two steps involved in this R script are as follows. See code itself for additional comments.
+
 1. Create list of Full and Code names for variables in data setup.R
 2. Create function which assigns a function to optionSet depending on whether any cohorts are missing 
 and whether we are looking at international students or not.
-3. 
 
