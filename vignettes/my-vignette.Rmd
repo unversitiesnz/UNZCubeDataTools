@@ -51,3 +51,15 @@ A common variable that is passed to functions is `optionSet`. The meaning of thi
 
 A list/vector with the following fields: list(dom = bool, sex = int, eth = int, studyLevel = int, subsector = string, fieldOfStudy = int, cohort = int, indicator = string).
 
+
+
+## Cube Data Functions process:
+Conditioners:
+International students only have field and level of study data available. We need to deal with these
+two groups differently.
+For domestic students where income data is available, we deal with it differently from other data.
+1. Create list of Full and Code names for variables in data setup.R
+2. Create function which assigns a function to optionSet depending on whether any cohorts are missing 
+and whether we are looking at international students or not.
+3. 
+
